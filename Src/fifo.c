@@ -5,8 +5,15 @@
 #include "fifo.h"
 
 
-//-----------------------------------------------------------------------------
-/* FIFO Register API */
+/**
+ * @brief This function creates a FIFO object and initializes it
+ * 
+ * @param fifo fifo instance pointer
+ * @param buf The memory used by FIFO
+ * @param size The size of the memory used by FIFA in bytes
+ * @return true If the FIFO object is created and initialized correctly
+ * @return false If the FIFO object is not created
+ */
 bool fifo_register (fifo_t* fifo, uint8_t* buf, uint32_t size) {
   if (fifo == NULL || buf == NULL || size == 0) {
     return false;
@@ -21,8 +28,14 @@ bool fifo_register (fifo_t* fifo, uint8_t* buf, uint32_t size) {
   fifo->totalSize   = size;
   return true;
 }
-//-----------------------------------------------------------------------------
-/* FIFO Flush */
+
+/**
+ * @brief This function completely unloads the memory of a FIFO
+ * 
+ * @param fifo fifo instance pointer
+ * @return true If the FIFO memory is flushed properly
+ * @return false If it is not possible to clear the FIFO memory area
+ */
 bool fifo_flush (fifo_t* fifo) {
   bool status = false;
   #ifdef FIFO_DISABLE_IRQ
@@ -41,8 +54,17 @@ bool fifo_flush (fifo_t* fifo) {
   #endif
   return status;
 }
-//-----------------------------------------------------------------------------
-/* FIFO Write API */
+
+/**
+ * @brief This function saves a buffer inside the FIFO.
+ *    If the size of the desired buffer is greater than the amount of free space in the FIFO,
+ *    it only stores as much as it can fit.
+ * 
+ * @param fifo fifo instance pointer
+ * @param BUF The buffer to be stored in FIFO
+ * @param size The size of the buffer to be stored in FIFO in bytes
+ * @return uint32_t Number of bytes stored in the fifo
+ */
 uint32_t fifo_write (fifo_t* fifo, const uint8_t* BUF, uint32_t size) {
 	uint32_t wSize = 0;
 	if (size == 0 || fifo == NULL || BUF == NULL) {
@@ -70,8 +92,15 @@ uint32_t fifo_write (fifo_t* fifo, const uint8_t* BUF, uint32_t size) {
   fifo->mutexWrite = false;
 	return size;
 }
-//-----------------------------------------------------------------------------
-/* FIFO Write API */
+
+/**
+ * @brief This function reads desired number of bytes from FIFO
+ * 
+ * @param fifo fifo instance pointer
+ * @param buf The buffer to be stored from FIFO
+ * @param size Destination buffer size in bytes
+ * @return uint32_t Number of bytes read from FIFO
+ */
 uint32_t  fifo_read (fifo_t* fifo, uint8_t* buf, uint32_t size) {
   uint32_t rSize = 0;
 	uint32_t occupySize = 0;
@@ -100,24 +129,39 @@ uint32_t  fifo_read (fifo_t* fifo, uint8_t* buf, uint32_t size) {
   fifo->mutexRead = false;
 	return size;
 }
-//-----------------------------------------------------------------------------
-/* FIFO Total Size Inquiry API */
+
+/**
+ * @brief This function returns the FIFO total size in bytes
+ * 
+ * @param FIFO fifo instance pointer
+ * @return uint32_t Total FIFO size in bytes
+ */
 uint32_t fifo_get_totalSize (const fifo_t* FIFO) {
   if (FIFO == NULL) {
     return 0;
   }
   return FIFO->totalSize;
 }
-//-----------------------------------------------------------------------------
-/* FIFO Free Size Available Inquiry API */
+
+/**
+ * @brief This function returns free available space of a FIFO in bytes
+ * 
+ * @param FIFO fifo instance pointer
+ * @return uint32_t Number of free spaces in bytes
+ */
 uint32_t fifo_get_freeSize (const fifo_t* FIFO) {
   if (FIFO == NULL) {
     return 0;
   }
 	return FIFO->totalSize - fifo_get_occupySize(FIFO);
 }
-//-----------------------------------------------------------------------------
-/* FIFO Occupy Size Inquiry API */
+
+/**
+ * @brief This function returns number of occupied spaces in bytes
+ * 
+ * @param FIFO fifo instance pointer
+ * @return uint32_t Number of Occupied size of a FIFO in bytes
+ */
 uint32_t fifo_get_occupySize (const fifo_t* FIFO) {
   if (FIFO == NULL) {
     return 0;
@@ -125,7 +169,12 @@ uint32_t fifo_get_occupySize (const fifo_t* FIFO) {
 	return FIFO->occupySize;
 }
 //-----------------------------------------------------------------------------
-/* FIFO Release API */
+/**
+ * @brief This API removes a FIFO object completely
+ * 
+ * @param fifo fifo instance pointer
+ * @attention This API is not implemented at the moment
+ */
 void fifo_release(fifo_t* fifo) {
-	/* This API isn't Implemented */
+	
 }

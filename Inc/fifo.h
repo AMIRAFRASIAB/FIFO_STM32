@@ -11,7 +11,17 @@
 #endif
 
 
-/* Config */
+/**
+ * @file fifo.h
+ * @author AmirHosein Bagheri (whiteWolf97@yahoo.com)
+ * @brief 
+ * @version 0.1
+ * @date 2024-10-29
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #include <arm_compat.h>
 #define FIFO_DISABLE_IRQ     __disable_irq/* Place Your Macro Here */
 #define FIFO_ENABLE_IRQ      __enable_irq /* Place Your Macro Here */
@@ -19,6 +29,7 @@
 #if !defined(FIFO_DISABLE_IRQ) || !defined(FIFO_ENABLE_IRQ)
   #Error "Set FIFO_DISABLE_IRQ And FIFO_ENABLE_IRQ Macros"
 #endif
+
 
 
 
